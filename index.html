@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encriptador de Texto</title>
+    <link rel="shortcut icon" href="img/icono.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+   
+    <main>
+    <div class="container">
+        
+        <div class="encriptar">
+            <textarea name="texto" class="texto" id="texto" cols="30" rows="10"
+            placeholder="Ingresa el texto aquí" oninput="verificarTexto()"></textarea>
+
+            <button class="boton-copiar" onclick="copiarTexto()">
+                <img id = "copy" src="img/copiar.png" alt="Icono de Copiar">
+            </button>
+            
+            
+        </div>
+
+        <div class="terminos">
+            <p>Solo letras minúsculas y sin acentos.</p>
+        </div>
+        
+        <div class="botones">
+            <button class="boton-encriptar" type="button" onclick="encriptar()">Encriptar</button>
+            <input type="button" class="boton-desencriptar" value="Desencriptar" onclick="desencriptar()"></button>
+        </div>
+              
+        <div class="caja"> 
+            <img src="img/muñeco.png" alt="" id="dibujito">
+            <div class="mensaje-encriptado" id="mensaje-encriptado">
+                <h2 id="titulo-mensaje">Mensaje no encontrado</h2>
+                <p id="parrafo">Ingresa el texto que deseas encriptar o desencriptar</p>
+                <!-- <textarea name="mensaje" id="mensaje" cols="30" rows="10" class="mensaje"></textarea> -->
+                
+            </div>
+        </div> 
+            
+    </div>
+    </main>
+
+    <footer>
+        <p class="copyright">&copy Copyright Eduardo Calderon - 2024</p>
+    </footer>
+    
+<script src="script.js"></script>
+</body>
+</html>
