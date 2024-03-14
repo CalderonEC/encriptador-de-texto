@@ -186,7 +186,7 @@
 
 /*Estilos boton invertir*/
 .boton-invertir {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     padding: 10px;

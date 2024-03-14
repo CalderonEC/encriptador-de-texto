@@ -1,3 +1,4 @@
+let accionRealizada = false;
 
 // Verificar datos introducidos
 function verificarTexto() {
@@ -5,16 +6,16 @@ function verificarTexto() {
 
     // Convertir a minúsculas, sin acentos y permitir espacios
     texto = texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    texto = texto.replace(/[^\w\s]/g, "").toLowerCase();
+    texto = texto.replace(/[^a-z\s]/ig, "").toLowerCase();
 
     document.getElementById("texto").value = texto;
-    if (texto.length > 0 && !accionRealizada) {
+    if (texto.length > 0) {
         document.getElementById("boton-reiniciar").style.display = "flex";
+    } else {
+        document.getElementById("boton-reiniciar").style.display = "none";
     }
 
 }
-
-let accionRealizada = false;
 
 // Encriptar
 function encriptar() {
@@ -27,12 +28,29 @@ function encriptar() {
     if (mensajeEncriptado) {
         if (texto.length !== 0) {
             
-            let textoCifrado = texto
-                .replace(/e/gi, "enter")
-                .replace(/i/gi, "imes")
-                .replace(/a/gi, "ai")
-                .replace(/o/gi, "ober")
-                .replace(/u/gi, "ufat");
+            let textoCifrado = "";
+            for (let i = 0; i < texto.length; i++) {
+                let letra = texto[i];
+                switch (letra.toLowerCase()) {
+                    case "a":
+                        textoCifrado += "ai";
+                        break;
+                    case "e":
+                        textoCifrado += "enter";
+                        break;
+                    case "i":
+                        textoCifrado += "imes";
+                        break;
+                    case "o":
+                        textoCifrado += "ober";
+                        break;
+                    case "u":
+                        textoCifrado += "ufat";
+                        break;
+                    default:
+                        textoCifrado += letra;
+                }
+            }
 
             // Mostrar el div encriptado y ocultar el div "caja"
             mensajeEncriptado.style.display = "block"; 
@@ -60,13 +78,21 @@ function desencriptar() {
 
     if (mensajeEncriptado) {
         if (texto.length !== 0) {
-            // Desencriptar el texto según tus reglas
-            let textoDescifrado = texto
-                .replace(/enter/gi, "e")
-                .replace(/imes/gi, "i")
-                .replace(/ai/gi, "a")
-                .replace(/ober/gi, "o")
-                .replace(/ufat/gi, "u");
+            
+            let mapeo = {
+                "ai": "a",
+                "enter": "e",
+                "imes": "i",
+                "ober": "o",
+                "ufat": "u"
+            };
+
+            // Función para aplicar el mapeo a una palabra
+            let desencriptarPalabra = palabra => mapeo[palabra.toLowerCase()] || palabra;
+
+            // Desencriptar texto
+            let palabras = texto.split(/\b/); // Dividir el texto en palabras respetando los límites de palabras
+            let textoDescifrado = palabras.map(desencriptarPalabra).join("");
 
             // Mostrar el div encriptado y ocultar el div "caja"
             mensajeEncriptado.style.display = "flex";
@@ -133,4 +159,5 @@ function reiniciar() {
     document.querySelector(".encriptado").style.display = "none";
     document.getElementById("caja").style.display = "flex";
     accionRealizada = false; // Restablecer la variable de acción realizada
+    verificarTexto()
 }
