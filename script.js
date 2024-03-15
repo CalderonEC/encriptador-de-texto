@@ -11,6 +11,7 @@ for (let clave in mapeo) {
     mapeoInverso[mapeo[clave]] = clave;
 }
 
+
 // Verificar datos introducidos
 function verificarTexto() {
     let texto = document.getElementById("texto").value;
@@ -82,52 +83,71 @@ function encriptar() {
 
 //Desencriptar
 function desencriptar() {
-    let textoEncriptado = document.getElementById("texto").value.trim();
+    let textoEncriptado = document.getElementById("texto-encriptado").value.trim();
+    let textoOriginal = document.getElementById("texto").value.trim();
+
+    let textoDesencriptado = "";
 
     if (textoEncriptado) {
-        // Realizar la desencriptación con la lógica de mapeo
-        let textoDesencriptado = "";
         let palabrasEncriptadas = textoEncriptado.split(" ");
+        let desencriptacionExitosa = true;
         for (let palabra of palabrasEncriptadas) {
-            if (mapeo[palabra]) {
-                textoDesencriptado += mapeo[palabra];
-            } else if (palabra === "jaimes") {
-                // Excepción para la palabra "jaimes"
-                textoDesencriptado += "jaimes";
+            if (mapeoInverso[palabra]) {
+                textoDesencriptado += mapeoInverso[palabra] + " ";
             } else {
-                // Si la palabra no está en el mapeo ni es "jaimes", se agrega tal como está
-                textoDesencriptado += palabra;
+                // Si la palabra no está en el mapeo inverso, la desencriptación falló
+                desencriptacionExitosa = false;
+                break;
             }
-            textoDesencriptado += " ";
         }
-        // Eliminar el espacio extra al final
-        textoDesencriptado = textoDesencriptado.trim();
-       
-        // Verificar si el texto desencriptado coincide con el texto encriptado original
-        if (textoDesencriptado === textoEncriptado) {
-            // Si coinciden, aplicar la lógica de reemplazo para manejar "jaimes"
+
+        if (!desencriptacionExitosa) {
+            // Aplicar la lógica de reemplazo para manejar "jaimes"
             textoDesencriptado = textoEncriptado.replace(/ai/g, "a")
                                                   .replace(/enter/g, "e")
                                                   .replace(/imes/g, "i")
                                                   .replace(/ober/g, "o")
                                                   .replace(/ufat/g, "u");
-        } 
-       
+        }
+
         // Mostrar el div encriptado y ocultar el div "caja"
         let encriptadoDiv = document.querySelector(".encriptado");
         encriptadoDiv.style.display = "block";
-        
+
         let cajaDiv = document.getElementById("caja");
         if (cajaDiv) {
             cajaDiv.style.display = "none";
         }
 
         // Asignar el resultado al textarea correspondiente
-        document.getElementById("texto-encriptado").value = textoDesencriptado;
+        document.getElementById("texto-encriptado").value = textoDesencriptado.trim();
         accionRealizada = true;
     } else {
-        // Mostrar un mensaje de advertencia si no hay texto encriptado en el área de texto
-        swal("Ups!", "Debes ingresar algún texto encriptado", "warning");
+        // Si no hay texto encriptado, pero hay texto original, aplicar la lógica de reemplazo
+        if (textoOriginal) {
+            textoDesencriptado = textoOriginal.replace(/ai/g, "a")
+                                               .replace(/enter/g, "e")
+                                               .replace(/imes/g, "i")
+                                               .replace(/ober/g, "o")
+                                               .replace(/ufat/g, "u");
+        } else {
+            // Mostrar un mensaje de advertencia si no hay texto encriptado ni texto original
+            swal("Ups!", "Debes ingresar algún texto encriptado", "warning");
+            return; // Salir de la función sin realizar más acciones
+        }
+
+        // Mostrar el div encriptado y ocultar el div "caja"
+        let encriptadoDiv = document.querySelector(".encriptado");
+        encriptadoDiv.style.display = "block";
+
+        let cajaDiv = document.getElementById("caja");
+        if (cajaDiv) {
+            cajaDiv.style.display = "none";
+        }
+
+        // Asignar el resultado al textarea correspondiente
+        document.getElementById("texto-encriptado").value = textoDesencriptado.trim();
+        accionRealizada = true;
     }
 }
 
