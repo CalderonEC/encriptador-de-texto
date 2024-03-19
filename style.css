@@ -220,7 +220,7 @@
     height: 90%;
     left: 60%;
     top: 5%;
-    background: #fff;
+    background:#f3f5fc;
     box-shadow: 0px 24px 32px -8px rgba(0, 0, 0, 0.08);
     border-radius: 32px;
 }
@@ -343,7 +343,7 @@ footer p{
     }
 
     .terminos {
-        width: 80%;
+        width: 100%;
         left: 10%;
         top: 67%;
     }
